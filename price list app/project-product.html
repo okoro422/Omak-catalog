@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product details | OMAK Resources Nig</title>
+  <link rel="stylesheet" href="project.css">
+  <link rel="stylesheet" href="business-pages.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header><span class="header-text">Free delivery on qualifying orders. Bulk and supply orders welcome</span></header>
+  <nav><div class="logo"><img src="logo.svg" alt="OMAK Resources Nig logo"></div><div class="nav-links"><a href="projectCatelog.html">Home</a><a href="project-shop.html">Shop</a><a href="project-supply.html">Supply &amp; wholesale</a></div></nav>
+  <nav class="order-shortcuts service-shortcuts" aria-label="Account links">
+    <a class="shortcut-link" href="project-message.html" aria-label="Message"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"></path></svg><span>Message</span></a>
+    <a class="shortcut-link" href="project-cart.html" id="cart-link" aria-label="Cart, 0 items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"></path><circle cx="10" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle></svg><span>Cart</span><span class="cart-count" aria-hidden="true" hidden>0</span></a>
+    <a class="shortcut-link" href="project-contact.html" aria-label="Contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M5 21a7 7 0 0 1 14 0"></path></svg><span>Contact</span></a>
+  </nav>
+  <main class="account-main product-detail-main">
+    <div class="shop-breadcrumb"><a href="projectCatelog.html">Home</a><span>/</span><a href="project-shop.html">Shop</a><span>/</span><span id="product-breadcrumb" aria-current="page">Product</span></div>
+    <section class="product-detail-layout">
+      <div class="product-gallery">
+        <div class="product-main-image" id="product-main-image"></div>
+        <div class="product-thumbnails" id="product-thumbnails" aria-label="Product photos"></div>
+      </div>
+      <div class="product-detail-copy">
+        <div class="product-detail-meta"><span class="category-tag" id="product-category"></span><span class="product-sku" id="product-sku"></span></div>
+        <h1 id="product-name"></h1>
+        <div class="rating-line"><span class="rating-stars" aria-label="Rated 4.8 out of 5">★★★★★</span><span>4.8 · 126 reviews</span><span class="stock-indicator"><i></i> In stock</span></div>
+        <div class="detail-price"><strong id="product-price"></strong><span>per item</span></div>
+        <p class="detail-description" id="product-description"></p>
+        <fieldset class="detail-options"><legend>Size</legend><div class="size-options" id="size-options"></div></fieldset>
+        <fieldset class="detail-options"><legend>Buy as</legend><div class="pack-options" id="pack-options"></div></fieldset>
+        <div class="detail-add-row"><div class="detail-quantity"><button type="button" id="quantity-minus" aria-label="Decrease quantity">−</button><input type="number" min="1" value="1" id="detail-quantity" aria-label="Quantity"><button type="button" id="quantity-plus" aria-label="Increase quantity">+</button></div><button class="account-primary-button detail-add-button" type="button" id="detail-add">Add to cart</button></div>
+        <div class="detail-secondary-actions"><a class="detail-buy-now" href="project-cart.html" id="buy-now">Buy now</a><a class="detail-chat-link" href="project-message.html">Ask us about this product</a></div>
+        <section class="bulk-pricing-panel"><h2>Bulk pricing</h2><div class="bulk-table" id="bulk-table"></div><a href="project-supply.html">Ordering for a business? Request a supply quote →</a></section>
+        <div class="product-promises"><span>Genuine and sealed</span><span>Delivery available</span></div>
+        <p class="detail-feedback" id="detail-feedback" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+    <section class="product-description-panel"><div class="description-tabs"><span class="is-active">Description</span><span>Ingredients</span><span>How to use</span><span>Reviews (126)</span></div><div class="description-panel-content"><p id="long-description"></p><div><span>Brand</span><strong>OMAK Essentials</strong><span>Pack options</span><strong>Single, dozen, carton</strong></div></div></section>
+    <section class="related-products"><div class="best-sellers-heading"><h2>You may also like</h2><a href="project-shop.html">View all <span>→</span></a></div><div class="related-product-grid" id="related-products"></div></section>
+  </main>
+  <footer class="site-footer"><div class="footer-main"><div class="footer-brand"><h2>OMAK Resources Nig</h2><p>Cosmetics, toiletries and supply for people and businesses who care about quality.</p></div><nav class="footer-column" aria-label="Shop links"><h3>Shop</h3><a href="project-shop.html">All products</a><a href="project-shop.html">Skincare</a><a href="project-shop.html">Hair care</a><a href="project-shop.html">Body care</a></nav><nav class="footer-column" aria-label="Supply links"><h3>Supply</h3><a href="project-supply.html">Wholesale pricing</a><a href="project-supply.html">Request a quote</a><a href="project-orders.html">Track an order</a></nav><div class="footer-column footer-contact"><h3>Contact</h3><a class="footer-contact-item" href="tel:+2348033175887"><span>08033175887</span></a><a class="footer-contact-item" href="mailto:Omakresources14@gmail.com"><span>Omakresources14@gmail.com</span></a><p class="footer-contact-item"><span>Garki Model Market, Abuja, Nigeria</span></p></div></div><div class="footer-bottom">© <span id="current-year">2026</span> OMAK Resources Nig. All rights reserved.</div></footer>
+  <script src="cart.js"></script>
+  <script>
+    const detailProducts = [
+      { id: "aloe-cucumber-face-wash", name: "Aloe & Cucumber Face Wash", category: "Skincare", price: 4500, size: "150ml", image: "https://images.pexels.com/photos/14798574/pexels-photo-14798574.jpeg", alt: "Aloe vera gel and cucumber skincare ingredients", sku: "OM-SK-0101", description: "A refreshing daily cleanser inspired by aloe and cucumber. A gentle everyday step for a clean, fresh-feeling complexion.", packs: [["Single",4500],["Dozen",3900],["Carton (24)",3600]] },
+      { id: "vitamin-c-brightening-serum", name: "Vitamin C Brightening Serum", category: "Skincare", price: 9500, size: "30ml", image: "https://images.pexels.com/photos/27768657/pexels-photo-27768657.png", alt: "Vitamin C serum with citrus", sku: "OM-SK-0108", description: "A lightweight vitamin C serum for a bright, refreshed-looking skincare routine.", packs: [["Single",9500],["Dozen",8800],["Carton (24)",8200]] },
+      { id: "shea-butter-body-lotion", name: "Shea Butter Body Lotion", category: "Body care", price: 6800, size: "400ml", image: "https://images.pexels.com/photos/27363151/pexels-photo-27363151.jpeg", alt: "Body lotion bottle held against a light background", sku: "OM-BC-0142", description: "Rich, fast-absorbing moisture with shea butter for soft, comfortable skin throughout the day.", packs: [["Single",6800],["Dozen",6300],["Carton (48)",5800]] },
+      { id: "neem-tea-tree-soap-bar", name: "Neem & Tea Tree Soap Bar", category: "Soaps and bath", price: 1800, size: "120g", image: "https://images.pexels.com/photos/6621471/pexels-photo-6621471.jpeg", alt: "Natural soap bars on a light surface", sku: "OM-BT-0177", description: "A botanical everyday cleansing bar with neem and tea tree-inspired freshness.", packs: [["Single",1800],["Dozen",1500],["Carton (100)",1300]] },
+      { id: "argan-oil-hair-serum", name: "Argan Oil Hair Serum", category: "Hair care", price: 7200, size: "100ml", image: "https://images.pexels.com/photos/7449892/pexels-photo-7449892.jpeg", alt: "Natural hair oil product", sku: "OM-HC-0203", description: "A smoothing hair oil serum for adding shine and keeping hair feeling soft.", packs: [["Single",7200],["Dozen",6600],["Carton (48)",6100]] },
+      { id: "charcoal-whitening-toothpaste", name: "Charcoal Whitening Toothpaste", category: "Oral care", price: 2300, size: "100g", image: "https://images.pexels.com/photos/33334321/pexels-photo-33334321.jpeg", alt: "Oral hygiene products", sku: "OM-OC-0231", description: "A fresh daily toothpaste option for your oral-care routine.", packs: [["Single",2300],["Dozen",2000],["Carton (48)",1750]] },
+      { id: "lavender-bath-salts", name: "Lavender Bath Salts", category: "Soaps and bath", price: 3400, size: "500g", image: "https://images.pexels.com/photos/3693294/pexels-photo-3693294.jpeg", alt: "Bath salts in a glass jar", sku: "OM-BT-0265", description: "A fragrant bath-time addition for a calm, relaxing soak.", packs: [["Single",3400],["Dozen",3100],["Carton (24)",2800]] },
+      { id: "liquid-hand-wash-refill", name: "Liquid Hand Wash Refill", category: "Home and toiletries", price: 3100, size: "1L", image: "https://images.pexels.com/photos/4108103/pexels-photo-4108103.jpeg", alt: "Liquid hand soap bottle", sku: "OM-HT-0290", description: "A practical refill size for keeping hand wash stocked at home or work.", packs: [["Single",3100],["Dozen",2800],["Carton (12)",2500]] }
+    ];
+    const currency = new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", maximumFractionDigits: 0 });
+    const params = new URLSearchParams(window.location.search);
+    let product = detailProducts.find(item => item.id === params.get("id")) || detailProducts[0];
+    let selectedPack = product.packs[0];
+    const quantityInput = document.querySelector("#detail-quantity");
+
+    function renderProduct() {
+      document.title = `${product.name} | OMAK Resources Nig`;
+      document.querySelector("#product-breadcrumb").textContent = product.name;
+      document.querySelector("#product-category").textContent = product.category;
+      document.querySelector("#product-sku").textContent = `${product.sku} · In stock`;
+      document.querySelector("#product-name").textContent = product.name;
+      document.querySelector("#product-price").textContent = currency.format(selectedPack[1]);
+      document.querySelector("#product-description").textContent = product.description;
+      document.querySelector("#long-description").textContent = `${product.description} Available for retail and wholesale in single, dozen, and carton packs.`;
+      const mainImage = document.querySelector("#product-main-image");
+      mainImage.innerHTML = `<img src="${product.image}" alt="${product.alt}"><span class="detail-image-badge">${product.category}</span>`;
+      document.querySelector("#product-thumbnails").innerHTML = [product.image, ...detailProducts.filter(item => item.id !== product.id).slice(0,3).map(item => item.image)].map((image, index) => `<button class="product-thumbnail${index === 0 ? " is-selected" : ""}" type="button" data-image="${image}" aria-label="Show product photo ${index + 1}"><img src="${image}" alt="" loading="lazy"></button>`).join("");
+      document.querySelector("#size-options").innerHTML = `<button class="size-option is-selected" type="button">${product.size}</button>`;
+      document.querySelector("#pack-options").innerHTML = product.packs.map((pack,index) => `<button class="pack-option${index === 0 ? " is-selected" : ""}" type="button" data-pack-index="${index}"><strong>${pack[0]}</strong><span>${currency.format(pack[1])} each</span></button>`).join("");
+      document.querySelector("#bulk-table").innerHTML = `<div class="bulk-table-row bulk-table-head"><span>Pack</span><span>Price each</span><span>You save</span></div>${product.packs.map((pack,index) => `<div class="bulk-table-row"><span>${pack[0]}</span><span>${currency.format(pack[1])}</span><span>${index ? `${Math.round((1-pack[1]/product.price)*100)}% off` : "Retail"}</span></div>`).join("")}`;
+      document.querySelector("#related-products").innerHTML = detailProducts.filter(item => item.id !== product.id).slice(0,4).map(item => `<a class="related-product-card" href="project-product.html?id=${item.id}"><img src="${item.image}" alt="${item.alt}" loading="lazy"><span>${item.category}</span><strong>${item.name}</strong><b>${currency.format(item.price)}</b></a>`).join("");
+    }
+
+    document.querySelector("#pack-options").addEventListener("click", event => {
+      const option = event.target.closest("[data-pack-index]");
+      if (!option) return;
+      selectedPack = product.packs[Number(option.dataset.packIndex)];
+      document.querySelectorAll(".pack-option").forEach(button => button.classList.toggle("is-selected", button === option));
+      document.querySelector("#product-price").textContent = currency.format(selectedPack[1]);
+    });
+    document.querySelector("#product-thumbnails").addEventListener("click", event => {
+      const button = event.target.closest("[data-image]");
+      if (!button) return;
+      document.querySelector("#product-main-image img").src = button.dataset.image;
+      document.querySelectorAll(".product-thumbnail").forEach(thumb => thumb.classList.toggle("is-selected", thumb === button));
+    });
+    document.querySelector("#quantity-minus").addEventListener("click", () => quantityInput.value = Math.max(1, Number(quantityInput.value || 1) - 1));
+    document.querySelector("#quantity-plus").addEventListener("click", () => quantityInput.value = Math.max(1, Number(quantityInput.value || 1) + 1));
+    document.querySelector("#detail-add").addEventListener("click", () => {
+      const quantity = Math.max(1, Number(quantityInput.value || 1));
+      const packSuffix = selectedPack[0].toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      const cartProductId = selectedPack[0] === "Single" ? product.id : `${product.id}-${packSuffix}`;
+      for(let index=0; index<quantity; index+=1) window.OmakCart.add({id:cartProductId,name:`${product.name} (${selectedPack[0]})`,price:selectedPack[1],image:product.image});
+      document.querySelector("#detail-feedback").textContent = `${quantity} ${quantity === 1 ? "item" : "items"} added to your cart.`;
+    });
+    document.querySelector("#buy-now").addEventListener("click", () => document.querySelector("#detail-add").click());
+    renderProduct();
+    document.querySelector("#current-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
