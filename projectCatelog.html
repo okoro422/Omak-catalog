@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECT CATELOG</title>
+    <title>OMAK Resources Nig | Quality Cosmetics & Toiletries in Abuja</title>
     <link rel="stylesheet" href="project.css">
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-     
-    </style>
+    <!-- Supabase JavaScript Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
    <header>
     <span class="header-text">
-      Free delevery on qualifying orders. Bulk and supply orders welcome
+      Free delivery on qualifying orders. Bulk and supply orders welcome
     </span>
   </header>  
   <nav>
@@ -24,8 +23,10 @@
         <a href="projectCatelog.html">Home</a>
         <a href="project-shop.html">Shop</a>
         <a href="project-supply.html">Supply &amp; wholesale</a>
+        <button class="login-btn" id="login">Login</button>
     </div> 
   </nav>
+
   <!-- My Search Bar -->
   <div class="my-search-bar">
     <h4>My orders</h4>
@@ -61,6 +62,7 @@
       </a>
     </nav>
   </div>
+
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
@@ -68,14 +70,15 @@
         <h1 id="hero-title">Care that feels as good as it looks.</h1>
         <p class="hero-description">Shop skincare, hair, body and everyday toiletries for yourself, or stock your shop with dependable products and bulk supply.</p>
         <div class="hero-actions">
-          <a class="hero-button hero-button-primary" href="#searchInput">Shop now <span aria-hidden="true">→</span></a>
-          <a class="hero-button hero-button-secondary" href="#contact">Request supply pricing</a>
+          <a class="hero-button hero-button-primary" href="project-shop.html">Shop now <span aria-hidden="true">→</span></a>
+          <a class="hero-button hero-button-secondary" href="project-supply.html">Request supply pricing</a>
         </div>
       </div>
       <div class="hero-media">
         <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="A curated arrangement of skincare and beauty products">
       </div>
     </section>
+
     <section class="benefits" aria-label="Shopping benefits">
       <ul class="benefit-list">
         <li class="benefit-item">
@@ -104,116 +107,78 @@
         </li>
       </ul>
     </section>
+
     <section class="categories" aria-labelledby="categories-title">
       <div class="category-heading">
         <h2 id="categories-title">Shop by category</h2>
-        <a href="#searchInput">View all products <span aria-hidden="true">→</span></a>
+        <a href="project-shop.html">View all products <span aria-hidden="true">→</span></a>
       </div>
       <div class="category-grid">
-        <article class="category-card" id="category-skincare">
+        <a href="project-shop.html?category=Skincare" class="category-card" style="text-decoration: none; color: inherit; display: block;">
           <div class="category-art category-art-mint" aria-hidden="true">
             <img src="https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?auto=format&amp;fit=crop&amp;w=640&amp;q=85" alt="Skincare products arranged with flower petals" loading="lazy" decoding="async">
           </div>
           <h3>Skincare</h3>
-          <p>32 products</p>
-        </article>
-        <article class="category-card" id="category-hair">
+          <p>Explore collection</p>
+        </a>
+        <a href="project-shop.html?category=Hair+care" class="category-card" style="text-decoration: none; color: inherit; display: block;">
           <div class="category-art category-art-blush" aria-hidden="true">
             <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&amp;fit=crop&amp;w=640&amp;q=85" alt="Hair-care bottle held in hand" loading="lazy" decoding="async">
           </div>
           <h3>Hair care</h3>
-          <p>24 products</p>
-        </article>
-        <article class="category-card" id="category-body">
+          <p>Explore collection</p>
+        </a>
+        <a href="project-shop.html?category=Body+care" class="category-card" style="text-decoration: none; color: inherit; display: block;">
           <div class="category-art category-art-sage" aria-hidden="true">
             <img src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&amp;fit=crop&amp;w=640&amp;q=85" alt="Body-care creams and skincare products" loading="lazy" decoding="async">
           </div>
           <h3>Body care</h3>
-          <p>28 products</p>
-        </article>
-        <article class="category-card" id="category-bath">
+          <p>Explore collection</p>
+        </a>
+        <a href="project-shop.html?category=Soaps+and+bath" class="category-card" style="text-decoration: none; color: inherit; display: block;">
           <div class="category-art category-art-cream" aria-hidden="true">
             <img src="https://images.unsplash.com/photo-1781451481536-3c387b372597?auto=format&amp;fit=crop&amp;w=640&amp;q=85" alt="Natural soaps and cosmetic products on a wooden tray" loading="lazy" decoding="async">
           </div>
           <h3>Soaps and bath</h3>
-          <p>19 products</p>
-        </article>
-        <article class="category-card" id="category-oral">
+          <p>Explore collection</p>
+        </a>
+        <a href="project-shop.html?category=Oral+care" class="category-card" style="text-decoration: none; color: inherit; display: block;">
           <div class="category-art category-art-mint" aria-hidden="true">
             <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&amp;fit=crop&amp;w=640&amp;q=85" alt="Toothbrushes and oral-care products" loading="lazy" decoding="async">
           </div>
           <h3>Oral care</h3>
-          <p>14 products</p>
-        </article>
-        <article class="category-card" id="category-home">
+          <p>Explore collection</p>
+        </a>
+        <a href="project-shop.html?category=Home+and+toiletries" class="category-card" style="text-decoration: none; color: inherit; display: block;">
           <div class="category-art category-art-blush" aria-hidden="true">
             <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&amp;fit=crop&amp;w=640&amp;q=85" alt="Everyday toiletries arranged on a bathroom shelf" loading="lazy" decoding="async">
           </div>
           <h3>Home and toiletries</h3>
-          <p>21 products</p>
-        </article>
+          <p>Explore collection</p>
+        </a>
       </div>
     </section>
+
+    <!-- Best Sellers Section -->
     <section class="best-sellers" aria-labelledby="best-sellers-title">
       <div class="best-sellers-heading">
         <h2 id="best-sellers-title">Best sellers</h2>
-        <a href="#categories-title">See more <span aria-hidden="true">→</span></a>
+        <a href="project-shop.html">See more <span aria-hidden="true">→</span></a>
       </div>
-      <div class="product-grid">
-        <article class="product-card">
-          <div class="product-photo product-photo-mint">
-            <span class="bestseller-badge">Bestseller</span>
-            <img src="https://images.pexels.com/photos/11757212/pexels-photo-11757212.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Facial cleanser displayed with aloe leaves" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Skincare</p>
-            <h3><a href="project-product.html?id=aloe-cucumber-face-wash">Aloe and Cucumber Face Wash</a></h3>
-            <div class="product-purchase"><strong>₦4,500</strong><button class="product-add" type="button" data-product-id="aloe-cucumber-face-wash" data-product-name="Aloe &amp; Cucumber Face Wash" data-product-price="4500" data-product-image="https://images.pexels.com/photos/14798574/pexels-photo-14798574.jpeg">Add</button></div>
-          </div>
-        </article>
-        <article class="product-card">
-          <div class="product-photo product-photo-blush">
-            <span class="bestseller-badge">Bestseller</span>
-            <img src="https://images.pexels.com/photos/7796229/pexels-photo-7796229.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Natural body butter in a cosmetic jar" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Body care</p>
-            <h3><a href="project-product.html?id=shea-butter-body-lotion">Shea Butter Body Lotion</a></h3>
-            <div class="product-purchase"><strong>₦6,800</strong><button class="product-add" type="button" data-product-id="shea-butter-body-lotion" data-product-name="Shea Butter Body Lotion" data-product-price="6800" data-product-image="https://images.pexels.com/photos/27363151/pexels-photo-27363151.jpeg">Add</button></div>
-          </div>
-        </article>
-        <article class="product-card">
-          <div class="product-photo product-photo-sage">
-            <img src="https://images.pexels.com/photos/10155373/pexels-photo-10155373.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Natural soap bars arranged with eucalyptus" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Soaps and bath</p>
-            <h3><a href="project-product.html?id=neem-tea-tree-soap-bar">Neem and Tea Tree Soap Bar</a></h3>
-            <div class="product-purchase"><strong>₦1,800</strong><button class="product-add" type="button" data-product-id="neem-tea-tree-soap-bar" data-product-name="Neem &amp; Tea Tree Soap Bar" data-product-price="1800" data-product-image="https://images.pexels.com/photos/6621471/pexels-photo-6621471.jpeg">Add</button></div>
-          </div>
-        </article>
-        <article class="product-card">
-          <div class="product-photo product-photo-cream">
-            <span class="bestseller-badge">Bestseller</span>
-            <img src="https://images.pexels.com/photos/6429667/pexels-photo-6429667.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Argan oil hair products arranged with greenery" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Hair care</p>
-            <h3><a href="project-product.html?id=argan-oil-hair-serum">Argan Oil Hair Serum</a></h3>
-            <div class="product-purchase"><strong>₦7,200</strong><button class="product-add" type="button" data-product-id="argan-oil-hair-serum" data-product-name="Argan Oil Hair Serum" data-product-price="7200" data-product-image="https://images.pexels.com/photos/7449892/pexels-photo-7449892.jpeg">Add</button></div>
-          </div>
-        </article>
+      <div class="product-grid" id="best-sellers-grid">
+        <!-- Dynamic Best Sellers -->
       </div>
       <p class="cart-feedback" id="cart-feedback" role="status" aria-live="polite"></p>
     </section>
+
     <section class="wholesale" aria-labelledby="wholesale-title" id="wholesale">
       <div class="wholesale-intro">
         <p class="wholesale-eyebrow">For shops, salons and distributors</p>
         <h2 id="wholesale-title">Stocking a business? Get supply pricing.</h2>
-        <p class="wholesale-description">Order by the dozen or carton, get tiered prices, and have one team handle your repeat orders.</p>
+        <p class="wholesale-description">Order by the dozen or carton, get tiered prices, and have one team handle your repeat orders in Abuja.</p>
         <div class="wholesale-actions">
-          <a class="wholesale-button wholesale-button-primary" href="#contact">Request a quote</a>
-          <a class="wholesale-button wholesale-button-secondary" href="#contact">Chat with sales</a>
+          <a class="wholesale-button wholesale-button-primary" href="project-supply.html">Request a quote</a>
+          <a class="wholesale-button wholesale-button-secondary" href="project-message.html">Chat with sales</a>
         </div>
       </div>
       <ol class="wholesale-steps" aria-label="How wholesale ordering works">
@@ -231,58 +196,18 @@
         </li>
       </ol>
     </section>
+
+    <!-- New Arrivals Section -->
     <section class="new-arrivals" aria-labelledby="new-arrivals-title">
       <div class="best-sellers-heading new-arrivals-heading">
         <h2 id="new-arrivals-title">New arrivals</h2>
-        <a href="#categories-title">See more <span aria-hidden="true">→</span></a>
+        <a href="project-shop.html">See more <span aria-hidden="true">→</span></a>
       </div>
-      <div class="product-grid">
-        <article class="product-card">
-          <div class="product-photo product-photo-sage">
-            <span class="bestseller-badge">New</span>
-            <img src="https://images.pexels.com/photos/28255124/pexels-photo-28255124.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Vitamin C serum bottle with citrus slices" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Skincare</p>
-            <h3><a href="project-product.html?id=vitamin-c-brightening-serum">Vitamin C Brightening Serum</a></h3>
-            <div class="product-purchase"><strong>₦9,500</strong><button class="product-add" type="button" data-product-id="vitamin-c-brightening-serum" data-product-name="Vitamin C Brightening Serum" data-product-price="9500" data-product-image="https://images.pexels.com/photos/27768657/pexels-photo-27768657.png">Add</button></div>
-          </div>
-        </article>
-        <article class="product-card">
-          <div class="product-photo product-photo-blush">
-            <span class="bestseller-badge">New</span>
-            <img src="https://images.pexels.com/photos/7418926/pexels-photo-7418926.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Glass bottles of bath salts" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Soaps and bath</p>
-            <h3><a href="project-product.html?id=lavender-bath-salts">Lavender Bath Salts</a></h3>
-            <div class="product-purchase"><strong>₦3,400</strong><button class="product-add" type="button" data-product-id="lavender-bath-salts" data-product-name="Lavender Bath Salts" data-product-price="3400" data-product-image="https://images.pexels.com/photos/3693294/pexels-photo-3693294.jpeg">Add</button></div>
-          </div>
-        </article>
-        <article class="product-card">
-          <div class="product-photo product-photo-mint">
-            <span class="bestseller-badge">New</span>
-            <img src="https://images.pexels.com/photos/15694675/pexels-photo-15694675.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Charcoal toothpaste on a toothbrush" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Oral care</p>
-            <h3><a href="project-product.html?id=charcoal-whitening-toothpaste">Charcoal Whitening Toothpaste</a></h3>
-            <div class="product-purchase"><strong>₦2,300</strong><button class="product-add" type="button" data-product-id="charcoal-whitening-toothpaste" data-product-name="Charcoal Whitening Toothpaste" data-product-price="2300" data-product-image="https://images.pexels.com/photos/33334321/pexels-photo-33334321.jpeg">Add</button></div>
-          </div>
-        </article>
-        <article class="product-card">
-          <div class="product-photo product-photo-cream">
-            <span class="bestseller-badge">New</span>
-            <img src="https://images.pexels.com/photos/4678949/pexels-photo-4678949.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=640" alt="Lavender liquid hand soap in a pump bottle" loading="lazy" decoding="async">
-          </div>
-          <div class="product-info">
-            <p class="product-category">Home and toiletries</p>
-            <h3><a href="project-product.html?id=liquid-hand-wash-refill">Liquid Hand Wash Refill</a></h3>
-            <div class="product-purchase"><strong>₦3,100</strong><button class="product-add" type="button" data-product-id="liquid-hand-wash-refill" data-product-name="Liquid Hand Wash Refill" data-product-price="3100" data-product-image="https://images.pexels.com/photos/4678949/pexels-photo-4678949.jpeg">Add</button></div>
-          </div>
-        </article>
+      <div class="product-grid" id="new-arrivals-grid">
+        <!-- Dynamic New Arrivals -->
       </div>
     </section>
+
     <section class="help-cta" aria-labelledby="help-title">
       <span class="help-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" focusable="false"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"></path></svg>
@@ -291,9 +216,10 @@
         <h2 id="help-title">Not sure what to pick?</h2>
         <p>Chat with our team for product advice, order help and supply questions.</p>
       </div>
-      <a class="help-button" href="#contact">Start a chat</a>
+      <a class="help-button" href="project-message.html">Start a chat</a>
     </section>
   </main>
+
   <footer class="site-footer">
     <div class="footer-main">
       <div class="footer-brand">
@@ -302,44 +228,111 @@
       </div>
       <nav class="footer-column" aria-label="Shop links">
         <h3>Shop</h3>
-        <a href="#categories-title">All products</a>
-        <a href="#category-skincare">Skincare</a>
-        <a href="#category-hair">Hair care</a>
-        <a href="#category-body">Body care</a>
+        <a href="project-shop.html">All products</a>
+        <a href="project-shop.html">Skincare</a>
+        <a href="project-shop.html">Hair care</a>
+        <a href="project-shop.html">Body care</a>
       </nav>
       <nav class="footer-column" aria-label="Supply links">
         <h3>Supply</h3>
-        <a href="#wholesale">Wholesale pricing</a>
-        <a href="#wholesale">Request a quote</a>
-        <a href="#contact">Track an order</a>
+        <a href="project-supply.html">Wholesale pricing</a>
+        <a href="project-supply.html">Request a quote</a>
+        <a href="project-orders.html">Track an order</a>
       </nav>
       <div class="footer-column footer-contact">
         <h3>Contact</h3>
         <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.5 2.7a2 2 0 0 1-.6 1.7L7.7 9.4a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 1.7-.6l2.7.5a2 2 0 0 1 1.6 1.9Z"></path></svg><span>08033175887</span></p>
         <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg><span>Omakresources14@gmail.com</span></p>
-        <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Garki model market, Buja, Nigeria</span></p>
+        <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Garki model market, Abuja, Nigeria</span></p>
       </div>
     </div>
     <div class="footer-bottom"><span>© <span id="current-year">2026</span> OMAK Resources Nig. All rights reserved.</span></div>
   </footer>
+
   <script src="cart.js"></script>
   <script>
-    const cartCount = document.querySelector("#cart-count");
-    const cartLink = document.querySelector("#cart-link");
-    const cartFeedback = document.querySelector("#cart-feedback");
-    document.querySelectorAll(".product-add").forEach((button) => {
-      button.addEventListener("click", () => {
-        const itemCount = window.OmakCart.add({
-          id: button.dataset.productId,
-          name: button.dataset.productName,
-          price: Number(button.dataset.productPrice),
-          image: button.dataset.productImage
-        });
-        button.textContent = "Added";
-        cartFeedback.textContent = `${button.dataset.productName} added to cart. ${itemCount} ${itemCount === 1 ? "item" : "items"} in cart.`;
+    const SUPABASE_URL = "https://vounhdiwyyqanfdzgmkj.supabase.co"; 
+    const SUPABASE_ANON_KEY = "sb_publishable_EfAD0a0C5UNI9-faMXvHOg_CGj4Ig4G";
+    
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loginBtn = document.querySelector("#login");
+    if (loginBtn) {
+      loginBtn.addEventListener("click", () => {
+        window.location.href = "project-auth.html";
       });
-    });
+    }
 
     document.querySelector("#current-year").textContent = new Date().getFullYear();
+
+    function renderProductCard(p) {
+      const badgeText = p.badge === 'Bestseller' ? 'Bestseller' : 'New';
+      return `
+        <a href="project-product.html?id=${p.id}" class="product-card" style="text-decoration: none; color: inherit; display: block;">
+          <div class="product-photo product-photo-mint">
+            <span class="bestseller-badge">${badgeText}</span>
+            <img src="${p.image_url || 'https://images.pexels.com/photos/27363151/pexels-photo-27363151.jpeg'}" alt="${p.name}" loading="lazy" decoding="async">
+          </div>
+          <div class="product-info">
+            <p class="product-category">${p.category || 'General'}</p>
+            <h3>${p.name}</h3>
+            <div class="product-purchase">
+              <strong>₦${Number(p.price || 0).toLocaleString('en-NG')}</strong>
+              <button class="product-add" type="button" 
+                data-product-id="${p.id}" 
+                data-product-name="${p.name}" 
+                data-product-price="${p.price}" 
+                data-product-image="${p.image_url || ''}">Add</button>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    function attachCartListeners() {
+      document.querySelectorAll(".product-add").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const itemCount = window.OmakCart.add({
+            id: button.dataset.productId,
+            name: button.dataset.productName,
+            price: Number(button.dataset.productPrice),
+            image: button.dataset.productImage
+          });
+          button.textContent = "Added";
+          document.querySelector("#cart-feedback").textContent = `${button.dataset.productName} added to cart. ${itemCount} ${itemCount === 1 ? "item" : "items"} in cart.`;
+        });
+      });
+    }
+
+    async function loadCatalogSections() {
+      const { data: products, error } = await _supabase
+        .from('products')
+        .select('*')
+        .eq('status', 'Published')
+        .order('created_at', { ascending: false });
+
+      if (error || !products) return;
+
+      const bestSellersGrid = document.querySelector("#best-sellers-grid");
+      if (bestSellersGrid) {
+        const bestSellersItems = products.filter(p => p.badge === 'Bestseller').slice(0, 4);
+        bestSellersGrid.innerHTML = bestSellersItems.map(p => renderProductCard(p)).join('');
+      }
+
+      const newArrivalsGrid = document.querySelector("#new-arrivals-grid");
+      if (newArrivalsGrid) {
+        const newArrivalsItems = products.filter(p => p.badge === 'New' || !p.badge).slice(0, 6);
+        newArrivalsGrid.innerHTML = newArrivalsItems.map(p => renderProductCard(p)).join('');
+      }
+
+      attachCartListeners();
+    }
+
+    loadCatalogSections();
   </script>
 </body>
+</html>
