@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in | OMAK Resources Nig</title><link rel="stylesheet" href="project.css"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></head>
+<body class="auth-body">
+  <main class="auth-layout">
+    <section class="auth-brand-panel"><a href="projectCatelog.html" class="auth-logo"><img src="logo.svg" alt="OMAK Resources Nig logo"></a><div class="auth-brand-copy"><p class="account-eyebrow">Care and supply, made simple</p><h1>Welcome to better care.</h1><p>Sign in to track orders, reorder favorites, and connect with the OMAK team.</p><ul><li>Track orders in one place</li><li>Save products you love</li><li>Request business supply pricing</li></ul></div><span class="auth-copyright">OMAK Resources Nig · Abuja, Nigeria</span></section>
+    <section class="auth-form-side"><form class="auth-form" id="auth-form"><div class="auth-role-switch" role="tablist" aria-label="Account type"><button type="button" class="is-active" role="tab" aria-selected="true" data-role="customer">Customer</button><button type="button" role="tab" aria-selected="false" data-role="team">Company team</button></div><p class="account-eyebrow" id="auth-eyebrow">Your account</p><h2 id="auth-title">Sign in</h2><p class="auth-subtitle" id="auth-subtitle">New to OMAK? Create an account to save your orders and favorites.</p><div class="auth-name-field" id="auth-name-field" hidden><label for="auth-name">Full name</label><input id="auth-name" name="name" autocomplete="name" placeholder="Your name"></div><label for="auth-email">Email or phone</label><input id="auth-email" name="email" autocomplete="username" required placeholder="you@example.com or 080..."> <label for="auth-password">Password</label><input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="At least 6 characters"><div class="auth-options"><label><input type="checkbox" name="remember" checked> Keep me signed in</label><a href="mailto:Omakresources14@gmail.com?subject=Account%20help">Need help?</a></div><button class="account-primary-button auth-submit" type="submit">Sign in</button><p class="auth-feedback" id="auth-feedback" role="status" aria-live="polite"></p><a class="auth-back-link" href="projectCatelog.html">← Back to OMAK store</a><p class="auth-demo-note">Demo account screen: sign-in details are not sent to a server.</p></form></section>
+  </main>
+  <script>
+    let selectedRole = "customer";
+    let selectedAuthMode = "signin";
+    const roleButtons = document.querySelectorAll("[data-role]");
+    const nameField = document.querySelector("#auth-name-field");
+    const authForm = document.querySelector("#auth-form");
+    const authSubtitle = document.querySelector("#auth-subtitle");
+    const authModeToggle = document.createElement("button");
+    authModeToggle.type = "button";
+    authModeToggle.className = "auth-mode-toggle";
+    authSubtitle.replaceChildren();
+
+    function renderAuthMode() {
+      const isCustomer = selectedRole === "customer";
+      const isCreateAccount = isCustomer && selectedAuthMode === "create";
+      nameField.hidden = !isCreateAccount;
+      document.querySelector("#auth-name").required = isCreateAccount;
+      document.querySelector("#auth-title").textContent = isCreateAccount ? "Create your account" : isCustomer ? "Sign in" : "Team sign in";
+      document.querySelector(".auth-submit").textContent = isCreateAccount ? "Create account" : "Sign in";
+      authSubtitle.replaceChildren(document.createTextNode(isCreateAccount ? "Already have an account?" : isCustomer ? "New to OMAK?" : "Use your company team account to open store management."));
+      if (isCustomer) {
+        authModeToggle.textContent = isCreateAccount ? "Sign in" : "Create an account";
+        authSubtitle.append(" ", authModeToggle);
+      }
+    }
+
+    authModeToggle.addEventListener("click", () => {
+      selectedAuthMode = selectedAuthMode === "signin" ? "create" : "signin";
+      renderAuthMode();
+    });
+
+    roleButtons.forEach(button => button.addEventListener("click", () => {
+      selectedRole = button.dataset.role;
+      selectedAuthMode = "signin";
+      roleButtons.forEach(tab => { const selected = tab === button; tab.classList.toggle("is-active", selected); tab.setAttribute("aria-selected", String(selected)); });
+      renderAuthMode();
+    }));
+
+    renderAuthMode();
+
+    authForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const email = document.querySelector("#auth-email").value.trim();
+      const name = document.querySelector("#auth-name").value.trim();
+      localStorage.setItem("omak-demo-account", JSON.stringify({ email, name, role: selectedRole, mode: selectedAuthMode }));
+      document.querySelector("#auth-feedback").textContent = selectedRole === "team" ? "Demo team session ready. Opening the company dashboard." : selectedAuthMode === "create" ? "Demo account created. Opening your orders." : "Demo sign-in ready. Opening your orders.";
+      window.location.href = selectedRole === "team" ? "project-admin.html" : "project-orders.html";
+    });
+  </script>
+</body>
+</html>
