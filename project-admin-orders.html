@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Company orders | OMAK Resources Nig</title>
+  <link rel="stylesheet" href="project.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Supabase JavaScript Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="project-admin.html">
+      <img src="logo.svg" alt="OMAK Resources Nig">
+      <span><strong>OMAK Resources</strong><small>Company workspace</small></span>
+    </a>
+    <p class="admin-nav-label">Manage</p>
+    <nav class="admin-nav" aria-label="Company management">
+      <a href="project-admin.html"><span>▦</span>Dashboard</a>
+      <a href="project-admin-products.html"><span>◇</span>Products</a>
+      <a class="is-current" href="project-admin-orders.html"><span>▤</span>Orders</a>
+      <a href="project-admin-chat.html"><span>◌</span>Chat inbox</a>
+      <a href="project-admin-supply.html"><span>⇄</span>Supply requests</a>
+    </nav>
+    <div class="admin-sidebar-bottom">
+      <button id="admin-signout-btn" class="small-outline-button" style="width: 100%; margin-bottom: 12px; background: #fff; color: #111; border: 1px solid #ddd; cursor: pointer; padding: 6px; border-radius: 4px;">Sign out workspace</button>
+      <a href="index.html">View customer store ↗</a>
+      <div class="admin-profile">
+        <span>SA</span>
+        <div><strong>Store Admin</strong><small>Owner workspace</small></div>
+      </div>
+    </div>
+  </aside>
+  
+  <main class="admin-content">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-date">Store management</p>
+        <h1>Orders</h1>
+        <p>Review customer orders and keep delivery moving from live database records.</p>
+      </div>
+      <label class="admin-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+        <input id="admin-order-search" placeholder="Search order or item" aria-label="Search orders">
+      </label>
+    </header>
+    
+    <section class="admin-status-tabs" aria-label="Filter orders">
+      <button class="is-current" type="button" data-order-filter="All">All</button>
+      <button type="button" data-order-filter="New">New</button>
+      <button type="button" data-order-filter="Processing">Processing</button>
+      <button type="button" data-order-filter="Shipped">Shipped</button>
+      <button type="button" data-order-filter="Delivered">Delivered</button>
+      <button type="button" data-order-filter="Cancelled">Cancelled</button>
+    </section>
+    
+    <section class="admin-panel orders-table-panel">
+      <div class="admin-panel-head">
+        <div>
+          <h2>All orders</h2>
+          <p>Latest database records</p>
+        </div>
+        <select aria-label="Order type">
+          <option>All types</option>
+          <option>Retail</option>
+          <option>Wholesale</option>
+        </select>
+      </div>
+      
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer ID</th>
+              <th>Item</th>
+              <th>Date</th>
+              <th>Qty</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-order-rows">
+            <tr><td colspan="7" style="padding: 20px; text-align: center; color: #666;">Loading live orders...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="admin-filter-empty" id="admin-orders-empty" hidden>No matching orders.</p>
+    </section>
+    
+    <p class="admin-save-feedback" id="order-feedback" role="status" aria-live="polite"></p>
+  </main>
+</div>
+
+<script src="cart.js"></script>
+<script>
+  // ==========================================
+  // SUPABASE CONFIGURATION & ADMIN GUARD
+  // ==========================================
+  const SUPABASE_URL = "https://vounhdiwyyqanfdzgmkj.supabase.co"; 
+  const SUPABASE_ANON_KEY = "sb_publishable_EfAD0a0C5UNI9-faMXvHOg_CGj4Ig4G";
+  
+  const { createClient } = supabase;
+  const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let allOrders = [];
+  let selectedOrderFilter = 'All';
+
+  async function initAdminOrders() {
+    const { data: { session }, error } = await _supabase.auth.getSession();
+    if (error || !session) {
+      window.location.href = "project-auth.html";
+      return;
+    }
+
+    const { data: profile, error: profileError } = await _supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .single();
+
+    if (profileError || !profile || profile.role !== 'team') {
+      alert("Unauthorized: Company team access only.");
+      window.location.href = "project-auth.html";
+      return;
+    }
+
+    // Fetch orders from Supabase
+    const { data: orders, error: ordersError } = await _supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (ordersError) {
+      console.error("Error loading orders:", ordersError.message);
+      return;
+    }
+
+    allOrders = orders || [];
+    renderAdminOrders();
+  }
+
+  function renderAdminOrders() {
+    const tbody = document.querySelector("#admin-order-rows");
+    const query = document.querySelector("#admin-order-search").value.trim().toLowerCase();
+
+    const filtered = allOrders.filter(order => {
+      const matchesStatus = selectedOrderFilter === 'All' || order.status.toLowerCase() === selectedOrderFilter.toLowerCase();
+      const matchesQuery = order.item_name.toLowerCase().includes(query) || order.id.toLowerCase().includes(query);
+      return matchesStatus && matchesQuery;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = "";
+      document.querySelector("#admin-orders-empty").hidden = false;
+      return;
+    }
+
+    document.querySelector("#admin-orders-empty").hidden = true;
+
+    tbody.innerHTML = filtered.map(order => {
+      const dateFormatted = new Date(order.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      const statusLower = order.status.toLowerCase();
+      let actionHtml = `<a class="table-action" href="project-admin-chat.html">Message</a>`;
+      
+      if (statusLower === 'new') {
+        actionHtml = `<button type="button" class="table-action order-update" data-id="${order.id}" data-next="Processing">Start processing</button>`;
+      } else if (statusLower === 'processing') {
+        actionHtml = `<button type="button" class="table-action order-update" data-id="${order.id}" data-next="Shipped">Mark shipped</button>`;
+      } else if (statusLower === 'shipped') {
+        actionHtml = `<button type="button" class="table-action order-update" data-id="${order.id}" data-next="Delivered">Mark delivered</button>`;
+      }
+
+      return `
+        <tr data-status="${order.status}" data-search="${order.id} ${order.item_name.toLowerCase()}">
+          <td><strong>#${order.id.slice(0, 8)}</strong></td>
+          <td>${order.user_id.slice(0, 8)}...</td>
+          <td>${order.item_name}</td>
+          <td>${dateFormatted}</td>
+          <td>${order.quantity}</td>
+          <td><span class="admin-status status-${statusLower}">${order.status}</span></td>
+          <td>${actionHtml}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Handle status updates in Supabase
+  document.querySelector("#admin-order-rows").addEventListener('click', async event => {
+    const button = event.target.closest('.order-update');
+    if (!button) return;
+    
+    const orderId = button.dataset.id;
+    const nextStatus = button.dataset.next;
+
+    const { error } = await _supabase
+      .from('orders')
+      .update({ status: nextStatus })
+      .eq('id', orderId);
+
+    if (error) {
+      alert("Failed to update order status: " + error.message);
+      return;
+    }
+
+    // Update local state and re-render
+    const target = allOrders.find(o => o.id === orderId);
+    if (target) target.status = nextStatus;
+
+    document.querySelector('#order-feedback').textContent = `Order #${orderId.slice(0, 8)} updated to ${nextStatus}.`;
+    renderAdminOrders();
+  });
+
+  document.querySelector('.admin-status-tabs').addEventListener('click', event => {
+    const tab = event.target.closest('[data-order-filter]');
+    if (!tab) return;
+    selectedOrderFilter = tab.dataset.orderFilter;
+    document.querySelectorAll('.admin-status-tabs button').forEach(button => button.classList.toggle('is-current', button === tab));
+    renderAdminOrders();
+  });
+
+  document.querySelector('#admin-order-search').addEventListener('input', renderAdminOrders);
+
+  document.querySelector("#admin-signout-btn").addEventListener("click", async () => {
+    await _supabase.auth.signOut();
+    window.location.href = "project-auth.html";
+  });
+
+  initAdminOrders();
+</script>
+</body>
+</html>

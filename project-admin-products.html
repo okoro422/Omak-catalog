@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products | OMAK Company</title>
+  <link rel="stylesheet" href="project.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Supabase JavaScript Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="project-admin.html">
+      <img src="logo.svg" alt="OMAK Resources Nig">
+      <span><strong>OMAK Resources</strong><small>Company workspace</small></span>
+    </a>
+    <p class="admin-nav-label">Manage</p>
+    <nav class="admin-nav" aria-label="Company management">
+      <a href="project-admin.html"><span>▦</span>Dashboard</a>
+      <a class="is-current" href="project-admin-products.html"><span>◇</span>Products</a>
+      <a href="project-admin-orders.html"><span>▤</span>Orders</a>
+      <a href="project-admin-chat.html"><span>◌</span>Chat inbox</a>
+      <a href="project-admin-supply.html"><span>⇄</span>Supply requests</a>
+    </nav>
+    <div class="admin-sidebar-bottom">
+      <button id="admin-signout-btn" class="small-outline-button" style="width: 100%; margin-bottom: 12px; background: #fff; color: #111; border: 1px solid #ddd; cursor: pointer; padding: 6px; border-radius: 4px;">Sign out workspace</button>
+      <a href="projectCatelog.html">View customer store ↗</a>
+      <div class="admin-profile">
+        <span>SA</span>
+        <div><strong>Store Admin</strong><small>Owner workspace</small></div>
+      </div>
+    </div>
+  </aside>
+  
+  <main class="admin-content">
+    <header class="admin-topbar">
+      <div>
+        <p class="admin-date">Inventory management</p>
+        <h1>Products</h1>
+        <p>Manage everything customers see in the catalog from live database records.</p>
+      </div>
+      <div class="admin-top-actions">
+        <button class="admin-secondary-button" type="button">Import</button>
+        <a class="admin-add-button" href="project-admin-product.html"><span>+</span> Add product</a>
+      </div>
+    </header>
+    
+    <section class="inventory-stats">
+      <div><span>Total products</span><strong id="stat-total">--</strong></div>
+      <div><span>In stock</span><strong id="stat-instock">--</strong></div>
+      <div><span>Low stock</span><strong>0</strong></div>
+      <div><span>Out of stock</span><strong>0</strong></div>
+    </section>
+    
+    <section class="admin-panel inventory-panel">
+      <div class="inventory-toolbar">
+        <label class="admin-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+          <input id="inventory-search" placeholder="Search by name or SKU" aria-label="Search products">
+        </label>
+        <select id="inventory-category" aria-label="Filter by category">
+          <option value="">All categories</option>
+          <option>Skincare</option>
+          <option>Hair care</option>
+          <option>Body care</option>
+          <option>Soaps and bath</option>
+          <option>Oral care</option>
+          <option>Home and toiletries</option>
+        </select>
+        <select id="inventory-status" aria-label="Filter by stock">
+          <option value="">All stock</option>
+          <option>In stock</option>
+          <option>Low stock</option>
+          <option>Out of stock</option>
+        </select>
+      </div>
+      
+      <div class="admin-table-wrap">
+        <table class="admin-table inventory-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" aria-label="Select all products"></th>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Catalog Section (Badge)</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventory-rows">
+            <tr><td colspan="8" style="padding: 20px; text-align: center; color: #666;">Loading live inventory...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <p class="admin-filter-empty" id="inventory-empty" hidden>No products match these filters.</p>
+      
+      <div class="admin-table-footer">
+        <span>Showing <b id="inventory-count">0</b> products</span>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="cart.js"></script>
+<script>
+  // ==========================================
+  // SUPABASE CONFIGURATION & ADMIN GUARD
+  // ==========================================
+  const SUPABASE_URL = "https://vounhdiwyyqanfdzgmkj.supabase.co"; 
+  const SUPABASE_ANON_KEY = "sb_publishable_EfAD0a0C5UNI9-faMXvHOg_CGj4Ig4G";
+  
+  const { createClient } = supabase;
+  const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let allProducts = [];
+  const search = document.querySelector('#inventory-search');
+  const category = document.querySelector('#inventory-category');
+  const stock = document.querySelector('#inventory-status');
+
+  async function initAdminProducts() {
+    const { data: { session }, error } = await _supabase.auth.getSession();
+    if (error || !session) {
+      window.location.href = "project-auth.html";
+      return;
+    }
+
+    const { data: profile, error: profileError } = await _supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .single();
+
+    if (profileError || !profile || profile.role !== 'team') {
+      alert("Unauthorized: Company team access only.");
+      window.location.href = "project-auth.html";
+      return;
+    }
+
+    const { data: products, error: prodError } = await _supabase
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (prodError) {
+      console.error("Error loading products:", prodError.message);
+      return;
+    }
+
+    allProducts = products || [];
+    renderInventory();
+  }
+
+  async function updateProductBadge(productId, newBadge) {
+    const { error } = await _supabase
+      .from('products')
+      .update({ badge: newBadge })
+      .eq('id', productId);
+
+    if (error) {
+      alert("Error updating badge: " + error.message);
+    } else {
+      const product = allProducts.find(p => p.id === productId);
+      if (product) product.badge = newBadge;
+    }
+  }
+
+  function renderInventory() {
+    const tbody = document.querySelector('#inventory-rows');
+    const query = search.value.trim().toLowerCase();
+    const catVal = category.value;
+    const stockVal = stock.value;
+
+    const filtered = allProducts.filter(p => {
+      const matchCat = !catVal || p.category === catVal;
+      const matchQuery = p.name.toLowerCase().includes(query) || (p.sku && p.sku.toLowerCase().includes(query));
+      return matchCat && matchQuery;
+    });
+
+    document.querySelector('#stat-total').textContent = allProducts.length;
+    document.querySelector('#stat-instock').textContent = allProducts.filter(p => p.stock > 0).length;
+    document.querySelector('#inventory-count').textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = "";
+      document.querySelector('#inventory-empty').hidden = false;
+      return;
+    }
+
+    document.querySelector('#inventory-empty').hidden = true;
+
+    tbody.innerHTML = filtered.map(p => {
+      const stockStatus = p.stock > 0 ? "In stock" : "Out of stock";
+      const statusClass = p.stock > 0 ? "status-new" : "status-cancelled";
+      const imgSrc = p.image_url || 'https://images.pexels.com/photos/27363151/pexels-photo-27363151.jpeg';
+      const currentBadge = p.badge || 'New';
+
+      return `
+        <tr data-category="${p.category}" data-stock="${stockStatus}" data-name="${p.name}">
+          <td><input type="checkbox" aria-label="Select product"></td>
+          <td>
+            <span class="admin-product-cell">
+              <img src="${imgSrc}" alt="" loading="lazy">
+              <span><strong>${p.name}</strong><small>${p.sku || 'OM-SK-GEN'}</small></span>
+            </span>
+          </td>
+          <td>${p.category}</td>
+          <td>₦${Number(p.price).toLocaleString('en-NG')}</td>
+          <td><strong>${p.stock}</strong><span class="stock-meter"><i style="width:${Math.min(p.stock, 100)}%"></i></span></td>
+          <td>
+            <select class="admin-badge-select" data-product-id="${p.id}" style="padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); font-size: 10px; background: #fff; cursor: pointer;">
+              <option value="New" ${currentBadge === 'New' ? 'selected' : ''}>New Arrival</option>
+              <option value="Bestseller" ${currentBadge === 'Bestseller' ? 'selected' : ''}>Best Seller</option>
+            </select>
+          </td>
+          <td><span class="admin-status ${statusClass}">${stockStatus}</span></td>
+          <td><a class="table-action" href="project-admin-product.html?id=${p.id}">Edit</a></td>
+        </tr>
+      `;
+    }).join('');
+
+    document.querySelectorAll(".admin-badge-select").forEach(select => {
+      select.addEventListener("change", async (e) => {
+        const productId = e.target.dataset.productId;
+        const newBadge = e.target.value;
+        await updateProductBadge(productId, newBadge);
+      });
+    });
+  }
+
+  [search, category, stock].forEach(control => {
+    control.addEventListener(control === search ? 'input' : 'change', renderInventory);
+  });
+
+  document.querySelector("#admin-signout-btn").addEventListener("click", async () => {
+    await _supabase.auth.signOut();
+    window.location.href = "project-auth.html";
+  });
+
+  initAdminProducts();
+</script>
+</body>
+</html>

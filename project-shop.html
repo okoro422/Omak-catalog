@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Products | OMAK Resources Nig</title>
+    <link rel="stylesheet" href="project.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JavaScript Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+   <header>
+    <span class="header-text">
+      Free delivery on qualifying orders. Bulk and supply orders welcome
+    </span>
+  </header>  
+  <nav>
+    <div class="logo">
+        <img src="logo.svg" alt="OMAK Resources Nig logo">
+    </div>
+    <div class="nav-links">
+        <a href="projectCatelog.html">Home</a>
+        <a href="project-shop.html">Shop</a>
+        <a href="project-supply.html">Supply &amp; wholesale</a>
+    </div> 
+  </nav>
+  <div class="my-search-bar">
+    <h4>Find a product</h4>
+    <div class="search-field" role="search">
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m16 16 4 4"></path>
+      </svg>
+      <input type="search" class="search-bar" placeholder="Search products..." id="searchInput" aria-label="Search products">
+    </div>
+    <nav class="order-shortcuts" aria-label="Order shortcuts">
+      <a class="shortcut-link" href="project-message.html" aria-label="Message">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"></path>
+        </svg>
+        <span>Message</span>
+      </a>
+      <a class="shortcut-link" href="project-cart.html" id="cart-link" aria-label="Cart, 0 items">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"></path>
+          <circle cx="10" cy="21" r="1"></circle>
+          <circle cx="19" cy="21" r="1"></circle>
+        </svg>
+        <span>Cart</span>
+        <span class="cart-count" id="cart-count" aria-hidden="true" hidden>0</span>
+      </a>
+      <a class="shortcut-link" href="project-contact.html" id="contact" aria-label="Contact">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M5 21a7 7 0 0 1 14 0"></path>
+        </svg>
+        <span>Contact</span>
+      </a>
+    </nav>
+  </div>
+  
+  <main class="shop-main">
+    <div class="shop-breadcrumb"><a href="projectCatelog.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Shop</span></div>
+    <div class="shop-heading-row">
+      <div>
+        <h1 id="shop-title">All products</h1>
+        <p class="shop-results-count" id="shop-results-count">Loading live products...</p>
+      </div>
+      <label class="shop-sort-control" for="shop-sort">Sort by
+        <select id="shop-sort" name="sort">
+          <option value="featured">Featured</option>
+          <option value="price-low">Price: low to high</option>
+          <option value="price-high">Price: high to low</option>
+          <option value="name">Name: A to Z</option>
+        </select>
+      </label>
+    </div>
+    
+    <div class="shop-layout">
+      <aside class="shop-filter-panel" aria-labelledby="shop-filters-title">
+        <form id="shop-filter-form">
+          <div class="shop-filter-heading">
+            <h2 id="shop-filters-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10m-7 6h4"></path></svg>Filters</h2>
+            <button type="button" id="clear-shop-filters">Clear all</button>
+          </div>
+          <fieldset class="shop-filter-group">
+            <legend>Category</legend>
+            <label class="shop-filter-option" for="filter-skincare"><input id="filter-skincare" type="checkbox" name="category" value="Skincare"><span>Skincare</span></label>
+            <label class="shop-filter-option" for="filter-hair"><input id="filter-hair" type="checkbox" name="category" value="Hair care"><span>Hair care</span></label>
+            <label class="shop-filter-option" for="filter-body"><input id="filter-body" type="checkbox" name="category" value="Body care"><span>Body care</span></label>
+            <label class="shop-filter-option" for="filter-bath"><input id="filter-bath" type="checkbox" name="category" value="Soaps and bath"><span>Soaps and bath</span></label>
+            <label class="shop-filter-option" for="filter-oral"><input id="filter-oral" type="checkbox" name="category" value="Oral care"><span>Oral care</span></label>
+            <label class="shop-filter-option" for="filter-home"><input id="filter-home" type="checkbox" name="category" value="Home and toiletries"><span>Home and toiletries</span></label>
+          </fieldset>
+          <fieldset class="shop-filter-group">
+            <legend>Price (₦)</legend>
+            <div class="shop-price-range">
+              <label><span class="visually-hidden">Minimum price</span><input type="number" name="minPrice" min="0" placeholder="Min"></label>
+              <span aria-hidden="true">to</span>
+              <label><span class="visually-hidden">Maximum price</span><input type="number" name="maxPrice" min="0" placeholder="Max"></label>
+            </div>
+          </fieldset>
+          <fieldset class="shop-filter-group">
+            <legend>Availability</legend>
+            <label class="shop-filter-option" for="filter-stock"><input id="filter-stock" type="checkbox" name="inStock" checked><span>In stock only</span></label>
+          </fieldset>
+          <button class="shop-apply-filters" type="submit">Apply filters</button>
+        </form>
+      </aside>
+      
+      <section class="shop-results" aria-labelledby="shop-title">
+        <div class="shop-active-filters" id="shop-active-filters" aria-label="Active filters"></div>
+        <div class="shop-product-grid" id="shop-products" aria-live="polite">
+          <p style="padding: 20px; color: #666;">Loading products from database...</p>
+        </div>
+        <nav class="shop-pagination" id="shop-pagination" aria-label="Product pages"></nav>
+        <p class="shop-feedback" id="shop-feedback" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <h2>OMAK Resources Nig</h2>
+        <p>Cosmetics, toiletries and supply for people and businesses who care about quality.</p>
+      </div>
+      <nav class="footer-column" aria-label="Shop links">
+        <h3>Shop</h3>
+        <a href="#shop-title">All products</a>
+        <a href="#filter-skincare">Skincare</a>
+        <a href="#filter-hair">Hair care</a>
+        <a href="#filter-body">Body care</a>
+      </nav>
+      <nav class="footer-column" aria-label="Supply links">
+        <h3>Supply</h3>
+        <a href="projectCatelog.html#wholesale">Wholesale pricing</a>
+        <a href="projectCatelog.html#wholesale">Request a quote</a>
+        <a href="#contact">Track an order</a>
+      </nav>
+      <div class="footer-column footer-contact">
+        <h3>Contact</h3>
+        <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7l.5 2.7a2 2 0 0 1-.6 1.7L7.7 9.4a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 1.7-.6l2.7.5a2 2 0 0 1 1.6 1.9Z"></path></svg><span>08033175887</span></p>
+        <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg><span>Omakresources14@gmail.com</span></p>
+        <p class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>Garki model market, Abuja, Nigeria</span></p>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© <span id="current-year">2026</span> OMAK Resources Nig. All rights reserved.</span></div>
+  </footer>
+
+  <script src="cart.js"></script>
+  <script>
+    // ==========================================
+    // SUPABASE CONFIGURATION
+    // ==========================================
+    const SUPABASE_URL = "https://vounhdiwyyqanfdzgmkj.supabase.co"; 
+    const SUPABASE_ANON_KEY = "sb_publishable_EfAD0a0C5UNI9-faMXvHOg_CGj4Ig4G";
+    
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const shopFeedback = document.querySelector("#shop-feedback");
+    const shopForm = document.querySelector("#shop-filter-form");
+    const shopProducts = document.querySelector("#shop-products");
+    const searchInput = document.querySelector("#searchInput");
+    const sortSelect = document.querySelector("#shop-sort");
+    
+    let products = [];
+    const favorites = new Set();
+    const pageSize = 8;
+    let currentPage = 1;
+
+    async function fetchProducts() {
+      const { data, error } = await _supabase
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error("Error loading products from Supabase:", error.message);
+        shopProducts.innerHTML = `<p class="shop-empty-state">Could not load products from database.</p>`;
+        return;
+      }
+
+      products = data || [];
+      renderShop();
+    }
+
+    function selectedValues(name) {
+      return Array.from(shopForm.querySelectorAll(`input[name="${name}"]:checked`), input => input.value);
+    }
+
+    function getFilteredProducts() {
+      const categories = selectedValues("category");
+      const minPrice = Number(shopForm.elements.minPrice.value) || 0;
+      const maxPrice = Number(shopForm.elements.maxPrice.value) || Infinity;
+      const inStockOnly = shopForm.elements.inStock.checked;
+      const query = searchInput.value.trim().toLowerCase();
+      
+      const filtered = products.filter(product => {
+        const matchesCategory = categories.length === 0 || categories.includes(product.category);
+        const matchesSearch = `${product.name} ${product.category}`.toLowerCase().includes(query);
+        const matchesStock = !inStockOnly || product.stock > 0;
+        return matchesCategory && matchesSearch && matchesStock && product.price >= minPrice && product.price <= maxPrice;
+      });
+
+      if (sortSelect.value === "price-low") filtered.sort((a, b) => a.price - b.price);
+      if (sortSelect.value === "price-high") filtered.sort((a, b) => b.price - a.price);
+      if (sortSelect.value === "name") filtered.sort((a, b) => a.name.localeCompare(b.name));
+      return filtered;
+    }
+
+    function renderActiveFilters() {
+      const chips = [];
+      selectedValues("category").forEach(value => chips.push({ label: value, type: "category", value }));
+      if (shopForm.elements.inStock.checked) chips.push({ label: "In stock", type: "inStock", value: "" });
+      const minPrice = shopForm.elements.minPrice.value;
+      const maxPrice = shopForm.elements.maxPrice.value;
+      if (minPrice || maxPrice) chips.push({ label: `₦${minPrice || "0"}–₦${maxPrice || "∞"}`, type: "price", value: "" });
+      document.querySelector("#shop-active-filters").innerHTML = chips.map(chip => `<button class="shop-filter-chip" type="button" data-remove-type="${chip.type}" data-remove-value="${chip.value}" aria-label="Remove ${chip.label} filter">${chip.label}<span aria-hidden="true">&times;</span></button>`).join("");
+    }
+
+    function renderPagination(totalPages) {
+      const pagination = document.querySelector("#shop-pagination");
+      if (totalPages <= 1) {
+        pagination.innerHTML = "";
+        return;
+      }
+      const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+      pagination.innerHTML = `<button class="shop-page-button shop-page-arrow" type="button" data-page="${Math.max(1, currentPage - 1)}" aria-label="Previous page" ${currentPage === 1 ? "disabled" : ""}>&lsaquo;</button>${pages.map(page => `<button class="shop-page-button${page === currentPage ? " is-current" : ""}" type="button" data-page="${page}" aria-label="Page ${page}" ${page === currentPage ? 'aria-current="page"' : ""}>${page}</button>`).join("")}<button class="shop-page-button shop-page-arrow" type="button" data-page="${Math.min(totalPages, currentPage + 1)}" aria-label="Next page" ${currentPage === totalPages ? "disabled" : ""}>&rsaquo;</button>`;
+    }
+
+    function renderShop() {
+      const filtered = getFilteredProducts();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+      currentPage = Math.min(currentPage, totalPages);
+      const pageProducts = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+      document.querySelector("#shop-results-count").textContent = `Showing ${filtered.length} of ${products.length} products`;
+      renderActiveFilters();
+      
+      shopProducts.innerHTML = pageProducts.length ? pageProducts.map(product => {
+        const imgSrc = product.image_url || 'https://images.pexels.com/photos/27363151/pexels-photo-27363151.jpeg';
+        const productId = product.id || 'gen';
+        return `
+          <article class="shop-product-card">
+            <div class="shop-product-photo">
+              <a class="shop-product-photo-link" href="project-product.html?id=${productId}">
+                <img src="${imgSrc}" alt="${product.name}" loading="lazy" decoding="async">
+              </a>
+              <button class="shop-favorite${favorites.has(product.name) ? " is-favorite" : ""}" type="button" data-favorite="${product.name}" aria-label="Favorite">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path></svg>
+              </button>
+            </div>
+            <div class="shop-product-info">
+              <p class="shop-product-category">${product.category}</p>
+              <h2><a href="project-product.html?id=${productId}">${product.name}</a></h2>
+              <p class="shop-product-pack">Stock: ${product.stock}</p>
+              <div class="shop-product-buy">
+                <strong>₦${Number(product.price).toLocaleString("en-NG")}</strong>
+                <button class="product-add shop-add-button" type="button" data-add="${product.name}" data-product-id="${productId}" data-product-name="${product.name}" data-product-price="${product.price}" data-product-image="${imgSrc}">Add</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("") : `<p class="shop-empty-state">No products match these filters. Try changing your search or filters.</p>`;
+      
+      renderPagination(totalPages);
+    }
+
+    shopForm.addEventListener("submit", event => {
+      event.preventDefault();
+      currentPage = 1;
+      renderShop();
+    });
+
+    document.querySelector("#clear-shop-filters").addEventListener("click", () => {
+      shopForm.reset();
+      shopForm.elements.inStock.checked = false;
+      searchInput.value = "";
+      sortSelect.value = "featured";
+      currentPage = 1;
+      renderShop();
+    });
+
+    searchInput.addEventListener("input", () => {
+      currentPage = 1;
+      renderShop();
+    });
+    
+    sortSelect.addEventListener("change", () => {
+      currentPage = 1;
+      renderShop();
+    });
+
+    document.querySelector("#shop-active-filters").addEventListener("click", event => {
+      const chip = event.target.closest("[data-remove-type]");
+      if (!chip) return;
+      const type = chip.dataset.removeType;
+      if (type === "price") {
+        shopForm.elements.minPrice.value = "";
+        shopForm.elements.maxPrice.value = "";
+      } else if (type === "inStock") {
+        shopForm.elements.inStock.checked = false;
+      } else {
+        shopForm.querySelectorAll(`input[name="${type}"]`).forEach(input => {
+          if (input.value === chip.dataset.removeValue) input.checked = false;
+        });
+      }
+      currentPage = 1;
+      renderShop();
+    });
+
+    document.querySelector("#shop-pagination").addEventListener("click", event => {
+      const button = event.target.closest("[data-page]");
+      if (!button || button.disabled) return;
+      currentPage = Number(button.dataset.page);
+      renderShop();
+      document.querySelector("#shop-title").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    shopProducts.addEventListener("click", event => {
+      const addButton = event.target.closest("[data-add]");
+      if (addButton) {
+        const itemCount = window.OmakCart.add({
+          id: addButton.dataset.productId,
+          name: addButton.dataset.productName,
+          price: Number(addButton.dataset.productPrice),
+          image: addButton.dataset.productImage
+        });
+        shopFeedback.textContent = `${addButton.dataset.add} added to cart. ${itemCount} ${itemCount === 1 ? "item" : "items"} in cart.`;
+        addButton.textContent = "Added";
+        return;
+      }
+      const favoriteButton = event.target.closest("[data-favorite]");
+      if (favoriteButton) {
+        const productName = favoriteButton.dataset.favorite;
+        if (favorites.has(productName)) favorites.delete(productName);
+        else favorites.add(productName);
+        renderShop();
+        shopFeedback.textContent = `${productName} ${favorites.has(productName) ? "added to" : "removed from"} favorites.`;
+      }
+    });
+
+    fetchProducts();
+    document.querySelector("#current-year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
