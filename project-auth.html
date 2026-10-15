@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in | OMAK Resources Nig</title>
+  <link rel="stylesheet" href="project.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Supabase JavaScript Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* Styling for the password eye toggle container */
+    .password-field-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .password-field-wrapper input {
+      width: 100%;
+      padding-right: 45px;
+    }
+    .toggle-password-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+    .toggle-password-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body class="auth-body">
+  <main class="auth-layout">
+    <section class="auth-brand-panel">
+      <a href="projectCatelog.html" class="auth-logo"><img src="logo.svg" alt="OMAK Resources Nig logo"></a>
+      <div class="auth-brand-copy">
+        <p class="account-eyebrow">Care and supply, made simple</p>
+        <h1>Welcome to better care.</h1>
+        <p>Sign in to track orders, reorder favorites, and connect with the OMAK team.</p>
+        <ul>
+          <li>Track orders in one place</li>
+          <li>Save products you love</li>
+          <li>Request business supply pricing</li>
+        </ul>
+      </div>
+      <span class="auth-copyright">OMAK Resources Nig · Abuja, Nigeria</span>
+    </section>
+    
+    <section class="auth-form-side">
+      <form class="auth-form" id="auth-form">
+        <div class="auth-role-switch" role="tablist" aria-label="Account type">
+          <button type="button" class="is-active" role="tab" aria-selected="true" data-role="customer">Customer</button>
+          <button type="button" role="tab" aria-selected="false" data-role="team">Company team</button>
+        </div>
+        
+        <p class="account-eyebrow" id="auth-eyebrow">Your account</p>
+        <h2 id="auth-title">Sign in</h2>
+        <p class="auth-subtitle" id="auth-subtitle">New to OMAK? Create an account to save your orders and favorites.</p>
+        
+        <div class="auth-name-field" id="auth-name-field" hidden>
+          <label for="auth-name">Full name</label>
+          <input id="auth-name" name="name" autocomplete="name" placeholder="Your name">
+        </div>
+        
+        <label for="auth-email">Email</label>
+        <input id="auth-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"> 
+        
+        <label for="auth-password">Password</label>
+        <div class="password-field-wrapper">
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="At least 6 characters">
+          <button type="button" class="toggle-password-btn" id="togglePassword" aria-label="Show password">
+            <!-- Eye Icon (Show) -->
+            <svg id="eyeIcon" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="auth-options">
+          <label><input type="checkbox" id="auth-remember" name="remember" checked> Keep me signed in</label>
+          <a href="#" id="forgot-password-link">Forgot password?</a>
+        </div>
+        
+        <button class="account-primary-button auth-submit" type="submit">Sign in</button>
+        <p class="auth-feedback" id="auth-feedback" role="status" aria-live="polite"></p>
+        <a class="auth-back-link" href="projectCatelog.html">← Back to OMAK store</a>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const SUPABASE_URL = "https://vounhdiwyyqanfdzgmkj.supabase.co"; 
+    const SUPABASE_ANON_KEY = "sb_publishable_EfAD0a0C5UNI9-faMXvHOg_CGj4Ig4G";
+    
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    });
+
+    let selectedRole = "customer";
+    let selectedAuthMode = "signin";
+    
+    const roleButtons = document.querySelectorAll("[data-role]");
+    const nameField = document.querySelector("#auth-name-field");
+    const authForm = document.querySelector("#auth-form");
+    const authSubtitle = document.querySelector("#auth-subtitle");
+    const feedbackEl = document.querySelector("#auth-feedback");
+    const forgotPasswordLink = document.querySelector("#forgot-password-link");
+    const passwordInput = document.querySelector("#auth-password");
+    const togglePasswordBtn = document.querySelector("#togglePassword");
+    const eyeIcon = document.querySelector("#eyeIcon");
+    
+    const authModeToggle = document.createElement("button");
+    authModeToggle.type = "button";
+    authModeToggle.className = "auth-mode-toggle";
+    authSubtitle.replaceChildren();
+
+    togglePasswordBtn.addEventListener("click", () => {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      
+      if (type === "text") {
+        eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+      } else {
+        eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+      }
+    });
+
+    function renderAuthMode() {
+      const isCustomer = selectedRole === "customer";
+      const isCreateAccount = isCustomer && selectedAuthMode === "create";
+      
+      nameField.hidden = !isCreateAccount;
+      document.querySelector("#auth-name").required = isCreateAccount;
+      document.querySelector("#auth-title").textContent = isCreateAccount ? "Create your account" : isCustomer ? "Sign in" : "Team sign in";
+      document.querySelector(".auth-submit").textContent = isCreateAccount ? "Create account" : "Sign in";
+      
+      authSubtitle.replaceChildren(document.createTextNode(isCreateAccount ? "Already have an account?" : isCustomer ? "New to OMAK?" : "Use your company team account to open store management."));
+      if (isCustomer) {
+        authModeToggle.textContent = isCreateAccount ? "Sign in" : "Create an account";
+        authSubtitle.append(" ", authModeToggle);
+      }
+    }
+
+    authModeToggle.addEventListener("click", () => {
+      selectedAuthMode = selectedAuthMode === "signin" ? "create" : "signin";
+      renderAuthMode();
+    });
+
+    roleButtons.forEach(button => button.addEventListener("click", () => {
+      selectedRole = button.dataset.role;
+      selectedAuthMode = "signin";
+      roleButtons.forEach(tab => { 
+        const selected = tab === button; 
+        tab.classList.toggle("is-active", selected); 
+        tab.setAttribute("aria-selected", String(selected)); 
+      });
+      renderAuthMode();
+    }));
+
+    renderAuthMode();
+
+    authForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      feedbackEl.textContent = "Processing...";
+      feedbackEl.style.color = "#333";
+
+      const email = document.querySelector("#auth-email").value.trim();
+      const password = document.querySelector("#auth-password").value.trim();
+      const fullName = document.querySelector("#auth-name").value.trim();
+
+      try {
+        if (selectedRole === "team") {
+          const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+
+          const { data: profile, error: profileError } = await _supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single();
+
+          if (profileError || !profile || profile.role !== 'team') {
+            await _supabase.auth.signOut();
+            throw new Error("Access denied. This is restricted to company team members.");
+          }
+
+          feedbackEl.textContent = "Team login successful. Opening dashboard...";
+          feedbackEl.style.color = "green";
+          setTimeout(() => window.location.href = "project-admin.html", 800);
+
+        } else if (selectedAuthMode === "create") {
+          const { data, error } = await _supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { full_name: fullName }
+            }
+          });
+          if (error) throw error;
+
+          feedbackEl.textContent = "Account created successfully! Redirecting...";
+          feedbackEl.style.color = "green";
+          setTimeout(() => window.location.href = "project-orders.html", 800);
+
+        } else {
+          const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+
+          feedbackEl.textContent = "Sign-in successful! Redirecting...";
+          feedbackEl.style.color = "green";
+          setTimeout(() => window.location.href = "project-orders.html", 800);
+        }
+
+      } catch (err) {
+        console.error("Auth error:", err);
+        feedbackEl.textContent = err.message || "An error occurred during authentication.";
+        feedbackEl.style.color = "red";
+      }
+    });
+
+    forgotPasswordLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const email = document.querySelector("#auth-email").value.trim();
+      if (!email) {
+        feedbackEl.textContent = "Please enter your email address above first, then click 'Forgot password?'.";
+        feedbackEl.style.color = "red";
+        return;
+      }
+
+      try {
+        const { error } = await _supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin + "/project-auth.html"
+        });
+        if (error) throw error;
+        feedbackEl.textContent = "Password reset instructions sent to your email!";
+        feedbackEl.style.color = "green";
+      } catch (err) {
+        feedbackEl.textContent = err.message;
+        feedbackEl.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
